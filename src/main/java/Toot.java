@@ -19,6 +19,9 @@ public class Toot {
         System.out.println(horizontalLine + "\n");
 
         Scanner scanner = new Scanner(System.in);
+        String[] tasks = new String[100];
+        int taskCount = 0;
+
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
             System.out.println(horizontalLine);
@@ -29,7 +32,16 @@ public class Toot {
                 break;
             }
 
-            System.out.println("Toot hearded: \"" + command + "\"  (｡•̀ᴗ-)✧");
+            if (command.equals("list")) {
+                for (int i = 0; i < taskCount; i++) {
+                    System.out.println((i + 1) + ". " + tasks[i]);
+                }
+            } else {
+                tasks[taskCount] = command;
+                taskCount++;
+                System.out.println("Toot addeded: \"" + command + "\"  (｡•̀ᴗ-)✧");
+            }
+
             System.out.println(horizontalLine + "\n");
         }
     }
