@@ -68,12 +68,47 @@ public class Toot {
                     System.out.println("Toot needs a task number after 'unmark'. (｡•́︿•̀｡)");
                 }
             } else {
-                tasks[taskCount] = new Task(command);
+                Task newTask = parseTask(command);
+                tasks[taskCount] = newTask;
                 taskCount++;
-                System.out.println("Toot addeded: \"" + command + "\"  (｡•̀ᴗ-)✧");
+                System.out.println("Toot addeded:");
+                System.out.println("  " + newTask);
+                String taskWord = taskCount == 1 ? "task" : "tasks";
+                System.out.println("Toot has " + taskCount + " " + taskWord + " in the list now! (｡•̀ᴗ-)✧");
             }
 
             System.out.println(horizontalLine + "\n");
         }
+    }
+
+    /**
+     * Creates the task requested by an add-task command.
+     * Untyped input remains a todo for compatibility with earlier levels.
+     *
+     * @param command Full command entered by the user.
+     * @return Task represented by the command.
+     */
+    private static Task parseTask(String command) {
+        if (command.startsWith("event ")) {
+            String arguments = command.substring("event ".length());
+            int fromIndex = arguments.indexOf(" /from ");
+            int toIndex = arguments.indexOf(" /to ", fromIndex + " /from ".length());
+            String description = arguments.substring(0, fromIndex);
+            String from = arguments.substring(fromIndex + " /from ".length(), toIndex);
+            String to = arguments.substring(toIndex + " /to ".length());
+            return new Event(description, from, to);
+        }
+        if (command.startsWith("deadline ")) {
+            String arguments = command.substring("deadline ".length());
+            int byIndex = arguments.indexOf(" /by ");
+            String description = arguments.substring(0, byIndex);
+            String by = arguments.substring(byIndex + " /by ".length());
+            return new Deadline(description, by);
+        }
+        if (command.startsWith("todo ")) {
+            String description = command.substring("todo ".length());
+            return new Todo(description);
+        }
+        return new Todo(command);
     }
 }
