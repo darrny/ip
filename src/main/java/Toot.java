@@ -26,45 +26,54 @@ public class Toot {
             String command = scanner.nextLine().trim();
             System.out.println(horizontalLine);
 
-            if (command.equals("bye")) {
-                System.out.println("Otay bye-bye! Toot go eepy now... zZz (｡-ω-)ﾉ");
-                System.out.println(horizontalLine);
-                break;
-            }
-
             try {
-                if (command.equals("list")) {
+                CommandType commandType = CommandType.from(command);
+                switch (commandType) {
+                case BYE:
+                    System.out.println("Otay bye-bye! Toot go eepy now... zZz (｡-ω-)ﾉ");
+                    System.out.println(horizontalLine);
+                    return;
+                case LIST:
                     System.out.println("Here are the tasks in your list:");
                     for (int i = 0; i < tasks.size(); i++) {
                         System.out.println((i + 1) + "." + tasks.get(i));
                     }
-                } else if (command.equals("mark") || command.startsWith("mark ")) {
-                    String taskNumberText = command.substring("mark".length()).trim();
-                    int taskIndex = parseTaskIndex(taskNumberText, tasks.size(), "mark");
-                    tasks.get(taskIndex).markAsDone();
+                    break;
+                case MARK:
+                    int markIndex = parseTaskIndex(commandType.getArguments(command), tasks.size(),
+                            commandType.getKeyword());
+                    tasks.get(markIndex).markAsDone();
                     System.out.println("Nice! I've marked this task as done:");
-                    System.out.println("  " + tasks.get(taskIndex));
-                } else if (command.equals("unmark") || command.startsWith("unmark ")) {
-                    String taskNumberText = command.substring("unmark".length()).trim();
-                    int taskIndex = parseTaskIndex(taskNumberText, tasks.size(), "unmark");
-                    tasks.get(taskIndex).markAsNotDone();
+                    System.out.println("  " + tasks.get(markIndex));
+                    break;
+                case UNMARK:
+                    int unmarkIndex = parseTaskIndex(commandType.getArguments(command), tasks.size(),
+                            commandType.getKeyword());
+                    tasks.get(unmarkIndex).markAsNotDone();
                     System.out.println("OK, I've marked this task as not done yet:");
-                    System.out.println("  " + tasks.get(taskIndex));
-                } else if (command.equals("delete") || command.startsWith("delete ")) {
-                    String taskNumberText = command.substring("delete".length()).trim();
-                    int taskIndex = parseTaskIndex(taskNumberText, tasks.size(), "delete");
-                    Task removedTask = tasks.remove(taskIndex);
+                    System.out.println("  " + tasks.get(unmarkIndex));
+                    break;
+                case DELETE:
+                    int deleteIndex = parseTaskIndex(commandType.getArguments(command), tasks.size(),
+                            commandType.getKeyword());
+                    Task removedTask = tasks.remove(deleteIndex);
                     System.out.println("Noted. I've removed this task:");
                     System.out.println("  " + removedTask);
-                    String taskWord = tasks.size() == 1 ? "task" : "tasks";
-                    System.out.println("Now you have " + tasks.size() + " " + taskWord + " in the list.");
-                } else {
-                    Task newTask = parseTask(command);
+                    String remainingTaskWord = tasks.size() == 1 ? "task" : "tasks";
+                    System.out.println("Now you have " + tasks.size() + " " + remainingTaskWord + " in the list.");
+                    break;
+                case TODO:
+                case DEADLINE:
+                case EVENT:
+                    Task newTask = parseTask(commandType, commandType.getArguments(command));
                     tasks.add(newTask);
                     System.out.println("Toot addeded:");
                     System.out.println("  " + newTask);
                     String taskWord = tasks.size() == 1 ? "task" : "tasks";
                     System.out.println("Toot has " + tasks.size() + " " + taskWord + " in the list now! (｡•̀ᴗ-)✧");
+                    break;
+                default:
+                    throw new AssertionError("Unhandled command type: " + commandType);
                 }
             } catch (TootException exception) {
                 System.out.println("Oh crumbs! " + exception.getMessage());
@@ -75,15 +84,16 @@ public class Toot {
     }
 
     /**
-     * Creates the task requested by a valid add-task command.
+     * Creates the task requested by a recognised add-task command.
      *
-     * @param command Full command entered by the user.
+     * @param commandType Type of task to create.
+     * @param arguments Text following the command keyword.
      * @return Task represented by the command.
-     * @throws TootException If the command is unknown or a required field is missing.
+     * @throws TootException If a required field is missing.
      */
-    private static Task parseTask(String command) throws TootException {
-        if (command.equals("event") || command.startsWith("event ")) {
-            String arguments = command.substring("event".length()).trim();
+    private static Task parseTask(CommandType commandType, String arguments) throws TootException {
+        switch (commandType) {
+        case EVENT:
             int fromIndex = findDelimiter(arguments, "/from", 0);
             if (fromIndex < 0) {
                 throw new TootException("An event needs '/from' before its start time. "
@@ -94,10 +104,10 @@ public class Toot {
                 throw new TootException("An event needs '/to' before its end time. "
                         + "Try: event DESCRIPTION /from START /to END");
             }
-            String description = arguments.substring(0, fromIndex).trim();
+            String eventDescription = arguments.substring(0, fromIndex).trim();
             String from = arguments.substring(fromIndex + "/from".length(), toIndex).trim();
             String to = arguments.substring(toIndex + "/to".length()).trim();
-            if (description.isEmpty()) {
+            if (eventDescription.isEmpty()) {
                 throw new TootException("The event description cannot be empty. "
                         + "Try: event DESCRIPTION /from START /to END");
             }
@@ -107,38 +117,31 @@ public class Toot {
             if (to.isEmpty()) {
                 throw new TootException("The event end time cannot be empty after '/to'.");
             }
-            return new Event(description, from, to);
-        }
-        if (command.equals("deadline") || command.startsWith("deadline ")) {
-            String arguments = command.substring("deadline".length()).trim();
+            return new Event(eventDescription, from, to);
+        case DEADLINE:
             int byIndex = findDelimiter(arguments, "/by", 0);
             if (byIndex < 0) {
                 throw new TootException("A deadline needs '/by' before its due date or time. "
                         + "Try: deadline DESCRIPTION /by DATE/TIME");
             }
-            String description = arguments.substring(0, byIndex).trim();
+            String deadlineDescription = arguments.substring(0, byIndex).trim();
             String by = arguments.substring(byIndex + "/by".length()).trim();
-            if (description.isEmpty()) {
+            if (deadlineDescription.isEmpty()) {
                 throw new TootException("The deadline description cannot be empty. "
                         + "Try: deadline DESCRIPTION /by DATE/TIME");
             }
             if (by.isEmpty()) {
                 throw new TootException("The deadline date or time cannot be empty after '/by'.");
             }
-            return new Deadline(description, by);
-        }
-        if (command.equals("todo") || command.startsWith("todo ")) {
-            String description = command.substring("todo".length()).trim();
-            if (description.isEmpty()) {
+            return new Deadline(deadlineDescription, by);
+        case TODO:
+            if (arguments.isEmpty()) {
                 throw new TootException("The todo description cannot be empty. Try: todo DESCRIPTION");
             }
-            return new Todo(description);
+            return new Todo(arguments);
+        default:
+            throw new IllegalArgumentException("Cannot create a task from command type: " + commandType);
         }
-        if (command.isEmpty()) {
-            throw new TootException("Toot didn't hear a command. Type a command such as 'todo read book'. (・・?)");
-        }
-        throw new TootException("Toot doesn't know that command. "
-                + "Try: todo, deadline, event, list, mark, unmark, delete, or bye. (・・?)");
     }
 
     /**
