@@ -12,10 +12,10 @@ public class Toot {
 
         System.out.println(horizontalLine);
         System.out.print(banner + "\n");
-        System.out.println("Hello! I'm Toot.");
-        System.out.println("What can I do for you?");
+        System.out.println("Hewwo! I'm Toot! :3");
+        System.out.println("Whatchu need? I twy my bestest! (•̀ᴗ•́)و");
         System.out.println(horizontalLine + "\n");
-        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println("Otay bye-bye! Come back soon! (｡•́‿•̀｡)ﾉ");
         System.out.println(horizontalLine);
     }
 }
