@@ -54,6 +54,21 @@ public class Toot {
                 } catch (NumberFormatException exception) {
                     System.out.println("Toot needs a task number after 'mark'. (｡•́︿•̀｡)");
                 }
+            } else if (command.equals("unmark") || command.startsWith("unmark ")) {
+                String taskNumberText = command.substring("unmark".length()).trim();
+
+                try {
+                    int taskIndex = Integer.parseInt(taskNumberText) - 1;
+                    if (taskIndex < 0 || taskIndex >= taskCount) {
+                        System.out.println("Toot can't find that task! Try a number from the list. (｡•́︿•̀｡)");
+                    } else {
+                        isDone[taskIndex] = false;
+                        System.out.println("OK, I've marked this task as not done yet:");
+                        System.out.println("  [ ] " + tasks[taskIndex]);
+                    }
+                } catch (NumberFormatException exception) {
+                    System.out.println("Toot needs a task number after 'unmark'. (｡•́︿•̀｡)");
+                }
             } else {
                 tasks[taskCount] = command;
                 taskCount++;
