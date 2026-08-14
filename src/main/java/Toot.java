@@ -1,11 +1,10 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Runs the Toot chatbot application.
  */
 public class Toot {
-    private static final int MAX_TASKS = 100;
-
     public static void main(String[] args) {
         String banner = " _____           _\n"
                 + "|_   _|__   ___ | |_\n"
@@ -21,8 +20,7 @@ public class Toot {
         System.out.println(horizontalLine + "\n");
 
         Scanner scanner = new Scanner(System.in);
-        Task[] tasks = new Task[MAX_TASKS];
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
 
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine().trim();
@@ -37,33 +35,36 @@ public class Toot {
             try {
                 if (command.equals("list")) {
                     System.out.println("Here are the tasks in your list:");
-                    for (int i = 0; i < taskCount; i++) {
-                        System.out.println((i + 1) + "." + tasks[i]);
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println((i + 1) + "." + tasks.get(i));
                     }
                 } else if (command.equals("mark") || command.startsWith("mark ")) {
                     String taskNumberText = command.substring("mark".length()).trim();
-                    int taskIndex = parseTaskIndex(taskNumberText, taskCount, "mark");
-                    tasks[taskIndex].markAsDone();
+                    int taskIndex = parseTaskIndex(taskNumberText, tasks.size(), "mark");
+                    tasks.get(taskIndex).markAsDone();
                     System.out.println("Nice! I've marked this task as done:");
-                    System.out.println("  " + tasks[taskIndex]);
+                    System.out.println("  " + tasks.get(taskIndex));
                 } else if (command.equals("unmark") || command.startsWith("unmark ")) {
                     String taskNumberText = command.substring("unmark".length()).trim();
-                    int taskIndex = parseTaskIndex(taskNumberText, taskCount, "unmark");
-                    tasks[taskIndex].markAsNotDone();
+                    int taskIndex = parseTaskIndex(taskNumberText, tasks.size(), "unmark");
+                    tasks.get(taskIndex).markAsNotDone();
                     System.out.println("OK, I've marked this task as not done yet:");
-                    System.out.println("  " + tasks[taskIndex]);
+                    System.out.println("  " + tasks.get(taskIndex));
+                } else if (command.equals("delete") || command.startsWith("delete ")) {
+                    String taskNumberText = command.substring("delete".length()).trim();
+                    int taskIndex = parseTaskIndex(taskNumberText, tasks.size(), "delete");
+                    Task removedTask = tasks.remove(taskIndex);
+                    System.out.println("Noted. I've removed this task:");
+                    System.out.println("  " + removedTask);
+                    String taskWord = tasks.size() == 1 ? "task" : "tasks";
+                    System.out.println("Now you have " + tasks.size() + " " + taskWord + " in the list.");
                 } else {
                     Task newTask = parseTask(command);
-                    if (taskCount == tasks.length) {
-                        throw new TootException("Toot's list can hold only " + MAX_TASKS
-                                + " tasks. Restart Toot to begin a new list. (｡•́︿•̀｡)");
-                    }
-                    tasks[taskCount] = newTask;
-                    taskCount++;
+                    tasks.add(newTask);
                     System.out.println("Toot addeded:");
                     System.out.println("  " + newTask);
-                    String taskWord = taskCount == 1 ? "task" : "tasks";
-                    System.out.println("Toot has " + taskCount + " " + taskWord + " in the list now! (｡•̀ᴗ-)✧");
+                    String taskWord = tasks.size() == 1 ? "task" : "tasks";
+                    System.out.println("Toot has " + tasks.size() + " " + taskWord + " in the list now! (｡•̀ᴗ-)✧");
                 }
             } catch (TootException exception) {
                 System.out.println("Oh crumbs! " + exception.getMessage());
@@ -137,13 +138,13 @@ public class Toot {
             throw new TootException("Toot didn't hear a command. Type a command such as 'todo read book'. (・・?)");
         }
         throw new TootException("Toot doesn't know that command. "
-                + "Try: todo, deadline, event, list, mark, unmark, or bye. (・・?)");
+                + "Try: todo, deadline, event, list, mark, unmark, delete, or bye. (・・?)");
     }
 
     /**
-     * Converts a user-facing task number to its zero-based array index.
+     * Converts a user-facing task number to its zero-based list index.
      *
-     * @param taskNumberText Task number entered after {@code mark} or {@code unmark}.
+     * @param taskNumberText Task number entered after {@code mark}, {@code unmark}, or {@code delete}.
      * @param taskCount Number of tasks currently stored.
      * @param action Command being performed, used to make error guidance specific.
      * @return Zero-based index of an existing task.

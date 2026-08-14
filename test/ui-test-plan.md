@@ -192,11 +192,11 @@ Oh crumbs! Toot didn't hear a command. Type a command such as 'todo read book'. 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
-Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, mark, unmark, or bye. (・・?)
+Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, mark, unmark, delete, or bye. (・・?)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
-Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, mark, unmark, or bye. (・・?)
+Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, mark, unmark, delete, or bye. (・・?)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
@@ -442,6 +442,105 @@ Here are the tasks in your list:
 1.[T][ ] borrow book
 2.[D][ ] return book (by: Sunday)
 3.[E][X] project meeting (from: Mon 2pm to: 4pm)
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Otay bye-bye! Toot go eepy now... zZz (｡-ω-)ﾉ
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+```
+
+### TC-07: Delete a task from the list
+
+**Aim:** Verify delete input validation, removal of a middle task, the remaining count, and list renumbering.
+
+#### Inputs
+
+```text
+delete
+delete one
+delete 1
+todo read book
+deadline return book /by June 6th
+event project meeting /from Aug 6th 2pm /to 4pm
+todo borrow book
+mark 1
+mark 2
+delete 3
+list
+bye
+```
+
+#### Expected output
+
+```text
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+ _____           _
+|_   _|__   ___ | |_
+  | |/ _ \ / _ \| __|
+  | | (_) | (_) | |_
+  |_|\___/ \___/ \__|
+
+Hewwo!! I'm Toot, ur teeny-tiny computey baby! ૮₍ ˶•⤙•˶ ₎ა
+Gib me a command... Toot do a BIG twy!! (•̀ᴗ•́)و
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Oh crumbs! Toot needs a task number after 'delete'. Try: delete 1
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Oh crumbs! The task number for 'delete' must be a whole number. Try: delete 1
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Oh crumbs! The task list is empty, so there is nothing to delete.
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Toot addeded:
+  [T][ ] read book
+Toot has 1 task in the list now! (｡•̀ᴗ-)✧
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Toot addeded:
+  [D][ ] return book (by: June 6th)
+Toot has 2 tasks in the list now! (｡•̀ᴗ-)✧
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Toot addeded:
+  [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+Toot has 3 tasks in the list now! (｡•̀ᴗ-)✧
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Toot addeded:
+  [T][ ] borrow book
+Toot has 4 tasks in the list now! (｡•̀ᴗ-)✧
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Nice! I've marked this task as done:
+  [T][X] read book
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Nice! I've marked this task as done:
+  [D][X] return book (by: June 6th)
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Noted. I've removed this task:
+  [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+Now you have 3 tasks in the list.
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Here are the tasks in your list:
+1.[T][X] read book
+2.[D][X] return book (by: June 6th)
+3.[T][ ] borrow book
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
