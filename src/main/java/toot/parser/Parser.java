@@ -54,6 +54,21 @@ public final class Parser {
     }
 
     /**
+     * Returns the keyword from a find command.
+     *
+     * @param command Parsed find command.
+     * @return Keyword to search for in task descriptions.
+     * @throws TootException If the keyword is empty.
+     */
+    public static String parseFindKeyword(ParsedCommand command) throws TootException {
+        String keyword = command.arguments();
+        if (keyword.isEmpty()) {
+            throw new TootException("The find keyword cannot be empty. Try: find KEYWORD");
+        }
+        return keyword;
+    }
+
+    /**
      * Converts a user-facing task number to its zero-based list index.
      *
      * @param command Parsed mark, unmark, or delete command.

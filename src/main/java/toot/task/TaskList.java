@@ -2,6 +2,7 @@ package toot.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Owns the collection of tasks and provides task-list operations.
@@ -66,6 +67,19 @@ public class TaskList {
      */
     public Task delete(int index) {
         return tasks.remove(index);
+    }
+
+    /**
+     * Returns tasks whose descriptions contain the keyword, ignoring case.
+     *
+     * @param keyword Keyword to find in task descriptions.
+     * @return Matching tasks in their original list order.
+     */
+    public List<Task> find(String keyword) {
+        String normalizedKeyword = keyword.toLowerCase(Locale.ROOT);
+        return tasks.stream()
+                .filter(task -> task.getDescription().toLowerCase(Locale.ROOT).contains(normalizedKeyword))
+                .toList();
     }
 
     /**

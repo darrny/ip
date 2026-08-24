@@ -35,9 +35,19 @@ public class ParserTest {
         assertEquals("Toot didn't hear a command. Type a command such as 'todo read book'. (・・?)",
                 emptyError.getMessage());
         assertEquals("Toot doesn't know that command. "
-                + "Try: todo, deadline, event, list, mark, unmark, delete, or bye. (・・?)",
+                + "Try: todo, deadline, event, list, find, mark, unmark, delete, or bye. (・・?)",
                 unknownError.getMessage());
         assertEquals(unknownError.getMessage(), listError.getMessage());
+    }
+
+    @Test
+    public void parseFindKeyword_presentAndMissingKeyword_returnsKeywordOrThrows() throws TootException {
+        assertEquals("read book", Parser.parseFindKeyword(Parser.parse("find read book")));
+
+        TootException missingKeyword = assertThrows(TootException.class,
+                () -> Parser.parseFindKeyword(Parser.parse("find")));
+
+        assertEquals("The find keyword cannot be empty. Try: find KEYWORD", missingKeyword.getMessage());
     }
 
     @Test
