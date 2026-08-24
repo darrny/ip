@@ -1,3 +1,4 @@
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -6,6 +7,16 @@ import java.util.Scanner;
  */
 public class Toot {
     public static void main(String[] args) {
+        Storage storage = new Storage(getDataFilePath());
+        ArrayList<Task> tasks;
+        String loadError = null;
+        try {
+            tasks = storage.load();
+        } catch (TootException exception) {
+            tasks = new ArrayList<>();
+            loadError = exception.getMessage() + " Toot will start with an empty task list.";
+        }
+
         String banner = " _____           _\n"
                 + "|_   _|__   ___ | |_\n"
                 + "  | |/ _ \\ / _ \\| __|\n"
@@ -17,10 +28,12 @@ public class Toot {
         System.out.print(banner + "\n");
         System.out.println("Hewwo!! I'm Toot, ur teeny-tiny computey baby! ૮₍ ˶•⤙•˶ ₎ა");
         System.out.println("Gib me a command... Toot do a BIG twy!! (•̀ᴗ•́)و");
+        if (loadError != null) {
+            System.out.println("Oh crumbs! " + loadError);
+        }
         System.out.println(horizontalLine + "\n");
 
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
 
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine().trim();
@@ -45,6 +58,7 @@ public class Toot {
                     tasks.get(markIndex).markAsDone();
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println("  " + tasks.get(markIndex));
+                    storage.save(tasks);
                     break;
                 case UNMARK:
                     int unmarkIndex = parseTaskIndex(commandType.getArguments(command), tasks.size(),
@@ -52,6 +66,7 @@ public class Toot {
                     tasks.get(unmarkIndex).markAsNotDone();
                     System.out.println("OK, I've marked this task as not done yet:");
                     System.out.println("  " + tasks.get(unmarkIndex));
+                    storage.save(tasks);
                     break;
                 case DELETE:
                     int deleteIndex = parseTaskIndex(commandType.getArguments(command), tasks.size(),
@@ -61,6 +76,7 @@ public class Toot {
                     System.out.println("  " + removedTask);
                     String remainingTaskWord = tasks.size() == 1 ? "task" : "tasks";
                     System.out.println("Now you have " + tasks.size() + " " + remainingTaskWord + " in the list.");
+                    storage.save(tasks);
                     break;
                 case TODO:
                 case DEADLINE:
@@ -71,6 +87,7 @@ public class Toot {
                     System.out.println("  " + newTask);
                     String taskWord = tasks.size() == 1 ? "task" : "tasks";
                     System.out.println("Toot has " + tasks.size() + " " + taskWord + " in the list now! (｡•̀ᴗ-)✧");
+                    storage.save(tasks);
                     break;
                 default:
                     throw new AssertionError("Unhandled command type: " + commandType);
@@ -81,6 +98,16 @@ public class Toot {
 
             System.out.println(horizontalLine + "\n");
         }
+    }
+
+    /**
+     * Returns the task data path. Tests can override it without touching real user data.
+     *
+     * @return Configured data file path, or {@code ./data/toot.txt} by default.
+     */
+    private static Path getDataFilePath() {
+        String customPath = System.getProperty("toot.data.path");
+        return customPath == null ? Path.of("data", "toot.txt") : Path.of(customPath);
     }
 
     /**
