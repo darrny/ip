@@ -2,12 +2,12 @@
 
 ## Test configuration
 
-Run every test case in a fresh process so its task list starts empty.
+Run every test case in a fresh process with an isolated data file so its task list starts empty.
 
 ### Program command
 
 ```shell
-javac -d build/classes src/main/java/*.java && java -cp build/classes Toot
+rm -f build/ui-test-data/toot.txt && javac -d build/classes src/main/java/*.java && java -Dtoot.data.path=build/ui-test-data/toot.txt -cp build/classes Toot
 ```
 
 - Timeout (seconds): 10
