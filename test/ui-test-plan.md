@@ -58,6 +58,7 @@ deadline return book
 deadline /by Sunday
 deadline return book /by
 deadline return book /by Sunday
+deadline return book /by 2019-12-02
 event meeting
 event /from Mon /to Tue
 event meeting /from /to Tue
@@ -93,20 +94,24 @@ Toot has 1 task in the list now! (｡•̀ᴗ-)✧
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
-Oh crumbs! A deadline needs '/by' before its due date or time. Try: deadline DESCRIPTION /by DATE/TIME
+Oh crumbs! A deadline needs '/by' before its due date. Try: deadline DESCRIPTION /by YYYY-MM-DD
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
-Oh crumbs! The deadline description cannot be empty. Try: deadline DESCRIPTION /by DATE/TIME
+Oh crumbs! The deadline description cannot be empty. Try: deadline DESCRIPTION /by YYYY-MM-DD
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
-Oh crumbs! The deadline date or time cannot be empty after '/by'.
+Oh crumbs! The deadline date cannot be empty after '/by'.
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Oh crumbs! The deadline date must use YYYY-MM-DD and be a real calendar date. Try: deadline DESCRIPTION /by 2019-12-02
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Toot addeded:
-  [D][ ] return book (by: Sunday)
+  [D][ ] return book (by: Dec 02 2019)
 Toot has 2 tasks in the list now! (｡•̀ᴗ-)✧
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
@@ -139,7 +144,7 @@ Toot has 3 tasks in the list now! (｡•̀ᴗ-)✧
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Here are the tasks in your list:
 1.[T][ ] read book
-2.[D][ ] return book (by: Sunday)
+2.[D][ ] return book (by: Dec 02 2019)
 3.[E][ ] meeting (from: Mon to: Tue)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
@@ -323,14 +328,14 @@ Otay bye-bye! Toot go eepy now... zZz (｡-ω-)ﾉ
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 ```
 
-### TC-05: Add and mark a deadline
+### TC-05: Add and mark a dated deadline
 
-**Aim:** Verify that deadline due text is stored as entered and displayed through inherited task behavior.
+**Aim:** Verify that an ISO deadline date is parsed as a calendar date and displayed in a user-friendly format.
 
 #### Inputs
 
 ```text
-deadline do homework /by no idea :-p
+deadline do homework /by 2026-08-31
 list
 mark 1
 list
@@ -353,23 +358,23 @@ Gib me a command... Toot do a BIG twy!! (•̀ᴗ•́)و
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Toot addeded:
-  [D][ ] do homework (by: no idea :-p)
+  [D][ ] do homework (by: Aug 31 2026)
 Toot has 1 task in the list now! (｡•̀ᴗ-)✧
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Here are the tasks in your list:
-1.[D][ ] do homework (by: no idea :-p)
+1.[D][ ] do homework (by: Aug 31 2026)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Nice! I've marked this task as done:
-  [D][X] do homework (by: no idea :-p)
+  [D][X] do homework (by: Aug 31 2026)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Here are the tasks in your list:
-1.[D][X] do homework (by: no idea :-p)
+1.[D][X] do homework (by: Aug 31 2026)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
@@ -385,7 +390,7 @@ Otay bye-bye! Toot go eepy now... zZz (｡-ω-)ﾉ
 
 ```text
 todo borrow book
-deadline return book /by Sunday
+deadline return book /by 2026-08-30
 event project meeting /from Mon 2pm /to 4pm
 list
 mark 3
@@ -415,7 +420,7 @@ Toot has 1 task in the list now! (｡•̀ᴗ-)✧
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Toot addeded:
-  [D][ ] return book (by: Sunday)
+  [D][ ] return book (by: Aug 30 2026)
 Toot has 2 tasks in the list now! (｡•̀ᴗ-)✧
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
@@ -428,7 +433,7 @@ Toot has 3 tasks in the list now! (｡•̀ᴗ-)✧
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Here are the tasks in your list:
 1.[T][ ] borrow book
-2.[D][ ] return book (by: Sunday)
+2.[D][ ] return book (by: Aug 30 2026)
 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
@@ -440,7 +445,7 @@ Nice! I've marked this task as done:
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Here are the tasks in your list:
 1.[T][ ] borrow book
-2.[D][ ] return book (by: Sunday)
+2.[D][ ] return book (by: Aug 30 2026)
 3.[E][X] project meeting (from: Mon 2pm to: 4pm)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
@@ -460,7 +465,7 @@ delete
 delete one
 delete 1
 todo read book
-deadline return book /by June 6th
+deadline return book /by 2026-06-06
 event project meeting /from Aug 6th 2pm /to 4pm
 todo borrow book
 mark 1
@@ -504,7 +509,7 @@ Toot has 1 task in the list now! (｡•̀ᴗ-)✧
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Toot addeded:
-  [D][ ] return book (by: June 6th)
+  [D][ ] return book (by: Jun 06 2026)
 Toot has 2 tasks in the list now! (｡•̀ᴗ-)✧
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
@@ -527,7 +532,7 @@ Nice! I've marked this task as done:
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Nice! I've marked this task as done:
-  [D][X] return book (by: June 6th)
+  [D][X] return book (by: Jun 06 2026)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
@@ -539,7 +544,7 @@ Now you have 3 tasks in the list.
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Here are the tasks in your list:
 1.[T][X] read book
-2.[D][X] return book (by: June 6th)
+2.[D][X] return book (by: Jun 06 2026)
 3.[T][ ] borrow book
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
