@@ -1,3 +1,7 @@
+package toot.parser;
+
+import toot.TootException;
+
 /**
  * Represents a command that Toot recognises.
  */
@@ -33,9 +37,9 @@ public enum CommandType {
      *
      * @param command Full trimmed command entered by the user.
      * @return Matching command type.
-     * @throws TootException If the command is empty, unknown, or has arguments when none are allowed.
+     * @throws TootException If the command is empty, unknown, or has disallowed arguments.
      */
-    public static CommandType from(String command) throws TootException {
+    static CommandType from(String command) throws TootException {
         if (command.isEmpty()) {
             throw new TootException("Toot didn't hear a command. "
                     + "Type a command such as 'todo read book'. (・・?)");
@@ -62,7 +66,7 @@ public enum CommandType {
      * @param command Full command that has already been identified as this type.
      * @return Trimmed command arguments, or an empty string when none were supplied.
      */
-    public String getArguments(String command) {
+    String getArguments(String command) {
         return command.substring(keyword.length()).trim();
     }
 

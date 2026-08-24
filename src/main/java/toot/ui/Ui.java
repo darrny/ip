@@ -1,0 +1,157 @@
+package toot.ui;
+
+import java.io.PrintStream;
+import java.util.List;
+import java.util.Scanner;
+
+import toot.task.Task;
+
+/**
+ * Handles all console input and user-facing output for Toot.
+ */
+public class Ui {
+    private static final String BANNER = " _____           _\n"
+            + "|_   _|__   ___ | |_\n"
+            + "  | |/ _ \\ / _ \\| __|\n"
+            + "  | | (_) | (_) | |_\n"
+            + "  |_|\\___/ \\___/ \\__|\n";
+    private static final String HORIZONTAL_LINE =
+            "⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆";
+
+    private final Scanner scanner;
+    private final PrintStream output;
+
+    /**
+     * Creates a UI connected to standard input and standard output.
+     */
+    public Ui() {
+        this(new Scanner(System.in), System.out);
+    }
+
+    /**
+     * Creates a UI with explicit streams, primarily to support focused tests.
+     *
+     * @param scanner Source of user commands.
+     * @param output Destination for user-facing messages.
+     */
+    public Ui(Scanner scanner, PrintStream output) {
+        this.scanner = scanner;
+        this.output = output;
+    }
+
+    /**
+     * Reports whether another command is available to read.
+     *
+     * @return {@code true} when input has another line.
+     */
+    public boolean hasNextCommand() {
+        return scanner.hasNextLine();
+    }
+
+    /**
+     * Reads one command line.
+     *
+     * @return Raw user command.
+     */
+    public String readCommand() {
+        return scanner.nextLine();
+    }
+
+    /**
+     * Shows the application banner and greeting.
+     */
+    public void showWelcome() {
+        output.println(HORIZONTAL_LINE);
+        output.print(BANNER + "\n");
+        output.println("Hewwo!! I'm Toot, ur teeny-tiny computey baby! ૮₍ ˶•⤙•˶ ₎ა");
+        output.println("Gib me a command... Toot do a BIG twy!! (•̀ᴗ•́)و");
+    }
+
+    /**
+     * Shows the farewell message.
+     */
+    public void showGoodbye() {
+        output.println("Otay bye-bye! Toot go eepy now... zZz (｡-ω-)ﾉ");
+    }
+
+    /**
+     * Shows a user-facing error.
+     *
+     * @param message Error explanation.
+     */
+    public void showError(String message) {
+        output.println("Oh crumbs! " + message);
+    }
+
+    /**
+     * Shows every task with its one-based list number.
+     *
+     * @param tasks Tasks in display order.
+     */
+    public void showTasks(List<Task> tasks) {
+        output.println("Here are the tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            output.println((i + 1) + "." + tasks.get(i));
+        }
+    }
+
+    /**
+     * Shows confirmation that a task was added.
+     *
+     * @param task Added task.
+     * @param taskCount Updated task count.
+     */
+    public void showAddedTask(Task task, int taskCount) {
+        output.println("Toot addeded:");
+        output.println("  " + task);
+        String taskWord = taskCount == 1 ? "task" : "tasks";
+        output.println("Toot has " + taskCount + " " + taskWord + " in the list now! (｡•̀ᴗ-)✧");
+    }
+
+    /**
+     * Shows confirmation that a task was marked as done.
+     *
+     * @param task Updated task.
+     */
+    public void showMarkedTask(Task task) {
+        output.println("Nice! I've marked this task as done:");
+        output.println("  " + task);
+    }
+
+    /**
+     * Shows confirmation that a task was marked as not done.
+     *
+     * @param task Updated task.
+     */
+    public void showUnmarkedTask(Task task) {
+        output.println("OK, I've marked this task as not done yet:");
+        output.println("  " + task);
+    }
+
+    /**
+     * Shows confirmation that a task was deleted.
+     *
+     * @param task Deleted task.
+     * @param taskCount Updated task count.
+     */
+    public void showDeletedTask(Task task, int taskCount) {
+        output.println("Noted. I've removed this task:");
+        output.println("  " + task);
+        String taskWord = taskCount == 1 ? "task" : "tasks";
+        output.println("Now you have " + taskCount + " " + taskWord + " in the list.");
+    }
+
+    /**
+     * Shows the divider line.
+     */
+    public void showLine() {
+        output.println(HORIZONTAL_LINE);
+    }
+
+    /**
+     * Shows the divider line followed by a blank line.
+     */
+    public void showLineWithBlankLine() {
+        output.println(HORIZONTAL_LINE + "\n");
+    }
+}

@@ -1,3 +1,5 @@
+package toot.task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -9,7 +11,7 @@ public class Deadline extends Task {
     private static final DateTimeFormatter DISPLAY_DATE_FORMAT =
             DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
 
-    protected final LocalDate by;
+    private final LocalDate by;
 
     /**
      * Creates a not-done deadline with the given description and due date.
@@ -20,6 +22,15 @@ public class Deadline extends Task {
     public Deadline(String description, LocalDate by) {
         super(description);
         this.by = by;
+    }
+
+    /**
+     * Returns this deadline's due date.
+     *
+     * @return Due date.
+     */
+    public LocalDate getBy() {
+        return by;
     }
 
     /**

@@ -1,10 +1,19 @@
+package toot.storage;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import toot.TootException;
+import toot.task.Deadline;
+import toot.task.Event;
+import toot.task.Task;
+import toot.task.Todo;
 
 /**
  * Saves tasks to a text file and restores them when the application starts.
@@ -76,16 +85,17 @@ public class Storage {
      * Converts a task into one human-editable line for the data file.
      */
     private static String formatTask(Task task) {
-        String doneValue = task.isDone ? "1" : "0";
+        String doneValue = task.isDone() ? "1" : "0";
         if (task instanceof Todo) {
-            return String.join(FIELD_SEPARATOR, "T", doneValue, escape(task.description));
+            return String.join(FIELD_SEPARATOR, "T", doneValue, escape(task.getDescription()));
         }
         if (task instanceof Deadline deadline) {
-            return String.join(FIELD_SEPARATOR, "D", doneValue, escape(task.description), deadline.by.toString());
+            return String.join(FIELD_SEPARATOR, "D", doneValue, escape(task.getDescription()),
+                    deadline.getBy().toString());
         }
         if (task instanceof Event event) {
-            return String.join(FIELD_SEPARATOR, "E", doneValue, escape(task.description),
-                    escape(event.from), escape(event.to));
+            return String.join(FIELD_SEPARATOR, "E", doneValue, escape(task.getDescription()),
+                    escape(event.getFrom()), escape(event.getTo()));
         }
         throw new IllegalArgumentException("Unsupported task type: " + task.getClass().getName());
     }
@@ -119,7 +129,7 @@ public class Storage {
                 task.markAsDone();
             }
             return task;
-        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException exception) {
+        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException | DateTimeParseException exception) {
             throw new TootException("Saved task data is invalid on line " + lineNumber + ".");
         }
     }

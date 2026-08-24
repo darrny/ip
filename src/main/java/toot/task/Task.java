@@ -1,18 +1,38 @@
+package toot.task;
+
 /**
  * Represents a task and whether it has been completed.
  */
-public class Task {
-    protected String description;
-    protected boolean isDone;
+public abstract class Task {
+    private final String description;
+    private boolean isDone;
 
     /**
      * Creates a task with the given description in a not-done state.
      *
      * @param description Description of the task.
      */
-    public Task(String description) {
+    protected Task(String description) {
         this.description = description;
         this.isDone = false;
+    }
+
+    /**
+     * Returns the task description.
+     *
+     * @return Task description without status or type markers.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Reports whether this task has been completed.
+     *
+     * @return {@code true} when the task is done.
+     */
+    public boolean isDone() {
+        return isDone;
     }
 
     /**

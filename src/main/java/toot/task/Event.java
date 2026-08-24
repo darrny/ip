@@ -1,9 +1,11 @@
+package toot.task;
+
 /**
  * Represents a task that occurs between specified start and end times.
  */
 public class Event extends Task {
-    protected String from;
-    protected String to;
+    private final String from;
+    private final String to;
 
     /**
      * Creates a not-done event with the given description and time text.
@@ -16,6 +18,24 @@ public class Event extends Task {
         super(description);
         this.from = from;
         this.to = to;
+    }
+
+    /**
+     * Returns the event's start text.
+     *
+     * @return Start date or time text.
+     */
+    public String getFrom() {
+        return from;
+    }
+
+    /**
+     * Returns the event's end text.
+     *
+     * @return End date or time text.
+     */
+    public String getTo() {
+        return to;
     }
 
     /**

@@ -1,9 +1,11 @@
+package toot;
+
 /**
- * Represents an input error that Toot can explain to the user.
+ * Represents an error that Toot can explain to the user.
  */
 public class TootException extends Exception {
     /**
-     * Creates an exception with a user-friendly explanation of the input error.
+     * Creates an exception with a user-friendly explanation of the error.
      *
      * @param message Explanation of the error and, where useful, how to correct it.
      */
