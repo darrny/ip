@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'com.gradleup.shadow' version '9.5.1'
 }
 
 group = 'toot'
@@ -34,6 +35,19 @@ test {
 
 application {
     mainClass = 'toot.Toot'
+}
+
+jar {
+    // The distributable shadow JAR replaces the dependency-free default JAR.
+    enabled = false
+    archiveClassifier = 'without-dependencies'
+}
+
+shadowJar {
+    archiveFileName = 'Toot.jar'
+    manifest {
+        attributes 'Main-Class': application.mainClass.get()
+    }
 }
 
 run {

@@ -14,6 +14,17 @@ Prerequisite: JDK 25.
 `build` compiles the application and runs the JUnit test suite. `run` starts Toot
 and connects the chatbot to the terminal's standard input.
 
+## Create and run the executable JAR
+
+```shell
+./gradlew shadowJar
+java -jar build/libs/Toot.jar
+```
+
+The generated `build/libs/Toot.jar` is self-contained. It can be copied into an
+empty folder and run there; Toot will create `data/toot.txt` beside it when the
+first task is saved. The generated JAR is build output and should not be committed.
+
 ## Setting up in IntelliJ
 
 Prerequisites: JDK 25, update Intellij to the most recent version.
