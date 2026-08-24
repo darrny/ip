@@ -96,6 +96,18 @@ public class Ui {
     }
 
     /**
+     * Shows tasks matching a find command with one-based result numbers.
+     *
+     * @param tasks Matching tasks in display order.
+     */
+    public void showMatchingTasks(List<Task> tasks) {
+        output.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            output.println((i + 1) + "." + tasks.get(i));
+        }
+    }
+
+    /**
      * Shows confirmation that a task was added.
      *
      * @param task Added task.

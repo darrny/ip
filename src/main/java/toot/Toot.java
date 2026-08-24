@@ -81,6 +81,10 @@ public class Toot {
             case LIST:
                 ui.showTasks(tasks.asList());
                 break;
+            case FIND:
+                String keyword = Parser.parseFindKeyword(command);
+                ui.showMatchingTasks(tasks.find(keyword));
+                break;
             case MARK:
                 int markIndex = Parser.parseTaskIndex(command, tasks.size());
                 Task markedTask = tasks.mark(markIndex);

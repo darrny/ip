@@ -197,11 +197,11 @@ Oh crumbs! Toot didn't hear a command. Type a command such as 'todo read book'. 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
-Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, mark, unmark, delete, or bye. (・・?)
+Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, find, mark, unmark, delete, or bye. (・・?)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
-Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, mark, unmark, delete, or bye. (・・?)
+Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, find, mark, unmark, delete, or bye. (・・?)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
@@ -546,6 +546,93 @@ Here are the tasks in your list:
 1.[T][X] read book
 2.[D][X] return book (by: Jun 06 2026)
 3.[T][ ] borrow book
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Otay bye-bye! Toot go eepy now... zZz (｡-ω-)ﾉ
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+```
+
+### TC-08: Find tasks by description keyword
+
+**Aim:** Verify missing-keyword validation, case-insensitive description matching, result numbering, and no matches.
+
+#### Inputs
+
+```text
+find
+todo Read Book
+deadline return book /by 2026-06-06
+event book club /from Mon /to Tue
+event meeting /from book club /to midnight
+mark 1
+find BOOK
+find club
+find 2026
+bye
+```
+
+#### Expected output
+
+```text
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+ _____           _
+|_   _|__   ___ | |_
+  | |/ _ \ / _ \| __|
+  | | (_) | (_) | |_
+  |_|\___/ \___/ \__|
+
+Hewwo!! I'm Toot, ur teeny-tiny computey baby! ૮₍ ˶•⤙•˶ ₎ა
+Gib me a command... Toot do a BIG twy!! (•̀ᴗ•́)و
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Oh crumbs! The find keyword cannot be empty. Try: find KEYWORD
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Toot addeded:
+  [T][ ] Read Book
+Toot has 1 task in the list now! (｡•̀ᴗ-)✧
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Toot addeded:
+  [D][ ] return book (by: Jun 06 2026)
+Toot has 2 tasks in the list now! (｡•̀ᴗ-)✧
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Toot addeded:
+  [E][ ] book club (from: Mon to: Tue)
+Toot has 3 tasks in the list now! (｡•̀ᴗ-)✧
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Toot addeded:
+  [E][ ] meeting (from: book club to: midnight)
+Toot has 4 tasks in the list now! (｡•̀ᴗ-)✧
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Nice! I've marked this task as done:
+  [T][X] Read Book
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Here are the matching tasks in your list:
+1.[T][X] Read Book
+2.[D][ ] return book (by: Jun 06 2026)
+3.[E][ ] book club (from: Mon to: Tue)
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Here are the matching tasks in your list:
+1.[E][ ] book club (from: Mon to: Tue)
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Here are the matching tasks in your list:
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
