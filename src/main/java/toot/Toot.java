@@ -78,39 +78,39 @@ public class Toot {
      */
     private void execute(ParsedCommand command) throws TootException {
         switch (command.type()) {
-        case LIST:
-            ui.showTasks(tasks.asList());
-            break;
-        case MARK:
-            int markIndex = Parser.parseTaskIndex(command, tasks.size());
-            Task markedTask = tasks.mark(markIndex);
-            ui.showMarkedTask(markedTask);
-            storage.save(tasks.asList());
-            break;
-        case UNMARK:
-            int unmarkIndex = Parser.parseTaskIndex(command, tasks.size());
-            Task unmarkedTask = tasks.unmark(unmarkIndex);
-            ui.showUnmarkedTask(unmarkedTask);
-            storage.save(tasks.asList());
-            break;
-        case DELETE:
-            int deleteIndex = Parser.parseTaskIndex(command, tasks.size());
-            Task deletedTask = tasks.delete(deleteIndex);
-            ui.showDeletedTask(deletedTask, tasks.size());
-            storage.save(tasks.asList());
-            break;
-        case TODO:
-        case DEADLINE:
-        case EVENT:
-            Task addedTask = Parser.parseTask(command);
-            tasks.add(addedTask);
-            ui.showAddedTask(addedTask, tasks.size());
-            storage.save(tasks.asList());
-            break;
-        case BYE:
-            throw new AssertionError("The exit command must be handled before execution.");
-        default:
-            throw new AssertionError("Unhandled command type: " + command.type());
+            case LIST:
+                ui.showTasks(tasks.asList());
+                break;
+            case MARK:
+                int markIndex = Parser.parseTaskIndex(command, tasks.size());
+                Task markedTask = tasks.mark(markIndex);
+                ui.showMarkedTask(markedTask);
+                storage.save(tasks.asList());
+                break;
+            case UNMARK:
+                int unmarkIndex = Parser.parseTaskIndex(command, tasks.size());
+                Task unmarkedTask = tasks.unmark(unmarkIndex);
+                ui.showUnmarkedTask(unmarkedTask);
+                storage.save(tasks.asList());
+                break;
+            case DELETE:
+                int deleteIndex = Parser.parseTaskIndex(command, tasks.size());
+                Task deletedTask = tasks.delete(deleteIndex);
+                ui.showDeletedTask(deletedTask, tasks.size());
+                storage.save(tasks.asList());
+                break;
+            case TODO:
+            case DEADLINE:
+            case EVENT:
+                Task addedTask = Parser.parseTask(command);
+                tasks.add(addedTask);
+                ui.showAddedTask(addedTask, tasks.size());
+                storage.save(tasks.asList());
+                break;
+            case BYE:
+                throw new AssertionError("The exit command must be handled before execution.");
+            default:
+                throw new AssertionError("Unhandled command type: " + command.type());
         }
     }
 

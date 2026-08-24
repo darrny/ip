@@ -20,7 +20,7 @@ public final class Parser {
      * Parses one raw line of user input.
      *
      * @param commandText Raw command entered by the user.
-     * @return Recognised command and its trimmed arguments.
+     * @return Recognized command and its trimmed arguments.
      * @throws TootException If the command is empty, unknown, or malformed at the command level.
      */
     public static ParsedCommand parse(String commandText) throws TootException {
@@ -39,17 +39,17 @@ public final class Parser {
     public static Task parseTask(ParsedCommand command) throws TootException {
         String arguments = command.arguments();
         switch (command.type()) {
-        case EVENT:
-            return parseEvent(arguments);
-        case DEADLINE:
-            return parseDeadline(arguments);
-        case TODO:
-            if (arguments.isEmpty()) {
-                throw new TootException("The todo description cannot be empty. Try: todo DESCRIPTION");
-            }
-            return new Todo(arguments);
-        default:
-            throw new IllegalArgumentException("Cannot create a task from command type: " + command.type());
+            case EVENT:
+                return parseEvent(arguments);
+            case DEADLINE:
+                return parseDeadline(arguments);
+            case TODO:
+                if (arguments.isEmpty()) {
+                    throw new TootException("The todo description cannot be empty. Try: todo DESCRIPTION");
+                }
+                return new Todo(arguments);
+            default:
+                throw new IllegalArgumentException("Cannot create a task from command type: " + command.type());
         }
     }
 

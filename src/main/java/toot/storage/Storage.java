@@ -110,20 +110,20 @@ public class Storage {
             boolean isDone = parseDoneValue(fields[1]);
             Task task;
             switch (type) {
-            case "T":
-                requireFieldCount(fields, 3);
-                task = new Todo(unescape(fields[2]));
-                break;
-            case "D":
-                requireFieldCount(fields, 4);
-                task = new Deadline(unescape(fields[2]), LocalDate.parse(fields[3]));
-                break;
-            case "E":
-                requireFieldCount(fields, 5);
-                task = new Event(unescape(fields[2]), unescape(fields[3]), unescape(fields[4]));
-                break;
-            default:
-                throw new IllegalArgumentException("unknown task type");
+                case "T":
+                    requireFieldCount(fields, 3);
+                    task = new Todo(unescape(fields[2]));
+                    break;
+                case "D":
+                    requireFieldCount(fields, 4);
+                    task = new Deadline(unescape(fields[2]), LocalDate.parse(fields[3]));
+                    break;
+                case "E":
+                    requireFieldCount(fields, 5);
+                    task = new Event(unescape(fields[2]), unescape(fields[3]), unescape(fields[4]));
+                    break;
+                default:
+                    throw new IllegalArgumentException("unknown task type");
             }
             if (isDone) {
                 task.markAsDone();
@@ -182,20 +182,20 @@ public class Storage {
             }
             char escaped = value.charAt(++i);
             switch (escaped) {
-            case '\\':
-                result.append('\\');
-                break;
-            case 'p':
-                result.append('|');
-                break;
-            case 'n':
-                result.append('\n');
-                break;
-            case 'r':
-                result.append('\r');
-                break;
-            default:
-                throw new IllegalArgumentException("unknown escape sequence");
+                case '\\':
+                    result.append('\\');
+                    break;
+                case 'p':
+                    result.append('|');
+                    break;
+                case 'n':
+                    result.append('\n');
+                    break;
+                case 'r':
+                    result.append('\r');
+                    break;
+                default:
+                    throw new IllegalArgumentException("unknown escape sequence");
             }
         }
         return result.toString();
