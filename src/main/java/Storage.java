@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,7 +81,7 @@ public class Storage {
             return String.join(FIELD_SEPARATOR, "T", doneValue, escape(task.description));
         }
         if (task instanceof Deadline deadline) {
-            return String.join(FIELD_SEPARATOR, "D", doneValue, escape(task.description), escape(deadline.by));
+            return String.join(FIELD_SEPARATOR, "D", doneValue, escape(task.description), deadline.by.toString());
         }
         if (task instanceof Event event) {
             return String.join(FIELD_SEPARATOR, "E", doneValue, escape(task.description),
@@ -105,7 +106,7 @@ public class Storage {
                 break;
             case "D":
                 requireFieldCount(fields, 4);
-                task = new Deadline(unescape(fields[2]), unescape(fields[3]));
+                task = new Deadline(unescape(fields[2]), LocalDate.parse(fields[3]));
                 break;
             case "E":
                 requireFieldCount(fields, 5);

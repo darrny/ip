@@ -1,4 +1,6 @@
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -116,7 +118,7 @@ public class Toot {
      * @param commandType Type of task to create.
      * @param arguments Text following the command keyword.
      * @return Task represented by the command.
-     * @throws TootException If a required field is missing.
+     * @throws TootException If a required field is missing or a deadline date is invalid.
      */
     private static Task parseTask(CommandType commandType, String arguments) throws TootException {
         switch (commandType) {
@@ -148,19 +150,19 @@ public class Toot {
         case DEADLINE:
             int byIndex = findDelimiter(arguments, "/by", 0);
             if (byIndex < 0) {
-                throw new TootException("A deadline needs '/by' before its due date or time. "
-                        + "Try: deadline DESCRIPTION /by DATE/TIME");
+                throw new TootException("A deadline needs '/by' before its due date. "
+                        + "Try: deadline DESCRIPTION /by YYYY-MM-DD");
             }
             String deadlineDescription = arguments.substring(0, byIndex).trim();
             String by = arguments.substring(byIndex + "/by".length()).trim();
             if (deadlineDescription.isEmpty()) {
                 throw new TootException("The deadline description cannot be empty. "
-                        + "Try: deadline DESCRIPTION /by DATE/TIME");
+                        + "Try: deadline DESCRIPTION /by YYYY-MM-DD");
             }
             if (by.isEmpty()) {
-                throw new TootException("The deadline date or time cannot be empty after '/by'.");
+                throw new TootException("The deadline date cannot be empty after '/by'.");
             }
-            return new Deadline(deadlineDescription, by);
+            return new Deadline(deadlineDescription, parseDeadlineDate(by));
         case TODO:
             if (arguments.isEmpty()) {
                 throw new TootException("The todo description cannot be empty. Try: todo DESCRIPTION");
@@ -168,6 +170,22 @@ public class Toot {
             return new Todo(arguments);
         default:
             throw new IllegalArgumentException("Cannot create a task from command type: " + commandType);
+        }
+    }
+
+    /**
+     * Parses a deadline date in the ISO format accepted by the chatbot.
+     *
+     * @param dateText Date entered after {@code /by}.
+     * @return Parsed calendar date.
+     * @throws TootException If the text is not a real date in {@code YYYY-MM-DD} format.
+     */
+    private static LocalDate parseDeadlineDate(String dateText) throws TootException {
+        try {
+            return LocalDate.parse(dateText);
+        } catch (DateTimeParseException exception) {
+            throw new TootException("The deadline date must use YYYY-MM-DD and be a real calendar date. "
+                    + "Try: deadline DESCRIPTION /by 2019-12-02");
         }
     }
 
