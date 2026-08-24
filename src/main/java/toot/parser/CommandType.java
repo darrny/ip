@@ -3,7 +3,7 @@ package toot.parser;
 import toot.TootException;
 
 /**
- * Represents a command that Toot recognises.
+ * Represents a command that Toot recognizes.
  */
 public enum CommandType {
     TODO("todo", true),

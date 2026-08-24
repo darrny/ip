@@ -19,7 +19,7 @@ public class TaskList {
     /**
      * Creates a task list containing a defensive copy of the supplied tasks.
      *
-     * @param initialTasks Tasks with which to initialise the list.
+     * @param initialTasks Tasks with which to initialize the list.
      */
     public TaskList(List<Task> initialTasks) {
         this.tasks = new ArrayList<>(initialTasks);
