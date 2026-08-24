@@ -7,7 +7,7 @@ Run every test case in a fresh process with an isolated data file so its task li
 ### Program command
 
 ```shell
-rm -f build/ui-test-data/toot.txt && javac -d build/classes src/main/java/*.java && java -Dtoot.data.path=build/ui-test-data/toot.txt -cp build/classes Toot
+rm -f build/ui-test-data/toot.txt && JAVA_HOME=/Users/darrny/.sdkman/candidates/java/25.0.3.fx-zulu ./gradlew --quiet classes && /Users/darrny/.sdkman/candidates/java/25.0.3.fx-zulu/bin/java -Dtoot.data.path=build/ui-test-data/toot.txt -cp build/classes/java/main toot.Toot
 ```
 
 - Timeout (seconds): 10
