@@ -11,6 +11,27 @@ java {
     targetCompatibility = JavaVersion.VERSION_25
 }
 
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    String junitVersion = '5.14.4'
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.14.4'
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        exceptionFormat = 'full'
+    }
+}
+
 application {
     mainClass = 'toot.Toot'
 }

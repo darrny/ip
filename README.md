@@ -11,7 +11,7 @@ Prerequisite: JDK 25.
 ./gradlew run
 ```
 
-`build` compiles the application. `run` starts Toot
+`build` compiles the application and runs the JUnit test suite. `run` starts Toot
 and connects the chatbot to the terminal's standard input.
 
 ## Setting up in IntelliJ
