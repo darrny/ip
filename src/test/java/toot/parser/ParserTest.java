@@ -44,8 +44,8 @@ public class ParserTest {
     public void parseFindKeyword_presentAndMissingKeyword_returnsKeywordOrThrows() throws TootException {
         assertEquals("read book", Parser.parseFindKeyword(Parser.parse("find read book")));
 
-        TootException missingKeyword = assertThrows(TootException.class,
-                () -> Parser.parseFindKeyword(Parser.parse("find")));
+        TootException missingKeyword = assertThrows(TootException.class, () ->
+                Parser.parseFindKeyword(Parser.parse("find")));
 
         assertEquals("The find keyword cannot be empty. Try: find KEYWORD", missingKeyword.getMessage());
     }
@@ -68,14 +68,14 @@ public class ParserTest {
 
     @Test
     public void parseTask_malformedAddCommands_rejectsMissingFieldsAndInvalidDates() throws TootException {
-        TootException emptyTodo = assertThrows(TootException.class,
-                () -> Parser.parseTask(Parser.parse("todo")));
-        TootException missingBy = assertThrows(TootException.class,
-                () -> Parser.parseTask(Parser.parse("deadline return book")));
-        TootException invalidDate = assertThrows(TootException.class,
-                () -> Parser.parseTask(Parser.parse("deadline return book /by 2026-02-30")));
-        TootException missingTo = assertThrows(TootException.class,
-                () -> Parser.parseTask(Parser.parse("event meeting /from noon")));
+        TootException emptyTodo = assertThrows(TootException.class, () ->
+                Parser.parseTask(Parser.parse("todo")));
+        TootException missingBy = assertThrows(TootException.class, () ->
+                Parser.parseTask(Parser.parse("deadline return book")));
+        TootException invalidDate = assertThrows(TootException.class, () ->
+                Parser.parseTask(Parser.parse("deadline return book /by 2026-02-30")));
+        TootException missingTo = assertThrows(TootException.class, () ->
+                Parser.parseTask(Parser.parse("event meeting /from noon")));
 
         assertEquals("The todo description cannot be empty. Try: todo DESCRIPTION", emptyTodo.getMessage());
         assertEquals("A deadline needs '/by' before its due date. "
@@ -100,14 +100,14 @@ public class ParserTest {
     public void parseTaskIndex_validAndInvalidNumbers_returnsIndexOrSpecificError() throws TootException {
         assertEquals(1, Parser.parseTaskIndex(Parser.parse("mark 2"), 3));
 
-        TootException missing = assertThrows(TootException.class,
-                () -> Parser.parseTaskIndex(Parser.parse("delete"), 3));
-        TootException nonNumeric = assertThrows(TootException.class,
-                () -> Parser.parseTaskIndex(Parser.parse("unmark two"), 3));
-        TootException emptyList = assertThrows(TootException.class,
-                () -> Parser.parseTaskIndex(Parser.parse("mark 1"), 0));
-        TootException outOfRange = assertThrows(TootException.class,
-                () -> Parser.parseTaskIndex(Parser.parse("delete 4"), 3));
+        TootException missing = assertThrows(TootException.class, () ->
+                Parser.parseTaskIndex(Parser.parse("delete"), 3));
+        TootException nonNumeric = assertThrows(TootException.class, () ->
+                Parser.parseTaskIndex(Parser.parse("unmark two"), 3));
+        TootException emptyList = assertThrows(TootException.class, () ->
+                Parser.parseTaskIndex(Parser.parse("mark 1"), 0));
+        TootException outOfRange = assertThrows(TootException.class, () ->
+                Parser.parseTaskIndex(Parser.parse("delete 4"), 3));
 
         assertEquals("Toot needs a task number after 'delete'. Try: delete 1", missing.getMessage());
         assertEquals("The task number for 'unmark' must be a whole number. Try: unmark 1",
