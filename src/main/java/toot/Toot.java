@@ -1,6 +1,10 @@
 package toot;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.Scanner;
 
 import toot.parser.CommandType;
 import toot.parser.ParsedCommand;
@@ -18,6 +22,13 @@ public class Toot {
     private final TaskList tasks;
     private final Ui ui;
     private final String loadingError;
+
+    /**
+     * Creates a Toot instance using the configured default task data file.
+     */
+    public Toot() {
+        this(getDataFilePath());
+    }
 
     /**
      * Creates a Toot instance backed by the given task data file.
@@ -54,16 +65,10 @@ public class Toot {
             String commandText = ui.readCommand();
             ui.showLine();
 
-            try {
-                ParsedCommand command = Parser.parse(commandText);
-                if (command.type() == CommandType.BYE) {
-                    ui.showGoodbye();
-                    ui.showLine();
-                    return;
-                }
-                execute(command);
-            } catch (TootException exception) {
-                ui.showError(exception.getMessage());
+            boolean shouldExit = executeCommand(commandText, ui);
+            if (shouldExit) {
+                ui.showLine();
+                return;
             }
 
             ui.showLineWithBlankLine();
@@ -71,36 +76,87 @@ public class Toot {
     }
 
     /**
+     * Returns Toot's startup message for a graphical interface.
+     *
+     * @return Greeting, or a task-loading error when saved data could not be loaded.
+     */
+    public String getStartupMessage() {
+        if (loadingError != null) {
+            return "Oh crumbs! " + loadingError;
+        }
+        return "Hewwo!! I'm Toot, ur teeny-tiny computey baby! ૮₍ ˶•⤙•˶ ₎ა\n"
+                + "Gib me a command... Toot do a BIG twy!! (•̀ᴗ•́)و";
+    }
+
+    /**
+     * Processes one command and returns its user-facing response.
+     *
+     * @param commandText Raw command entered by the user.
+     * @return Response text without the console-only divider lines.
+     */
+    public String getResponse(String commandText) {
+        ByteArrayOutputStream responseBytes = new ByteArrayOutputStream();
+        try (Scanner unusedInput = new Scanner("");
+                PrintStream responseOutput = new PrintStream(responseBytes, true, StandardCharsets.UTF_8)) {
+            Ui responseUi = new Ui(unusedInput, responseOutput);
+            executeCommand(commandText, responseUi);
+        }
+        return responseBytes.toString(StandardCharsets.UTF_8).stripTrailing();
+    }
+
+    /**
+     * Parses and executes one command through the supplied UI.
+     *
+     * @param commandText Raw command entered by the user.
+     * @param activeUi UI that should receive the response.
+     * @return {@code true} when the command requests application exit.
+     */
+    private boolean executeCommand(String commandText, Ui activeUi) {
+        try {
+            ParsedCommand command = Parser.parse(commandText);
+            if (command.type() == CommandType.BYE) {
+                activeUi.showGoodbye();
+                return true;
+            }
+            execute(command, activeUi);
+        } catch (TootException exception) {
+            activeUi.showError(exception.getMessage());
+        }
+        return false;
+    }
+
+    /**
      * Executes one parsed command and persists any resulting task-list change.
      *
      * @param command Parsed user command.
+     * @param activeUi UI that should receive the response.
      * @throws TootException If the command arguments or storage operation are invalid.
      */
-    private void execute(ParsedCommand command) throws TootException {
+    private void execute(ParsedCommand command, Ui activeUi) throws TootException {
         switch (command.type()) {
             case LIST:
-                ui.showTasks(tasks.asList());
+                activeUi.showTasks(tasks.asList());
                 break;
             case FIND:
                 String keyword = Parser.parseFindKeyword(command);
-                ui.showMatchingTasks(tasks.find(keyword));
+                activeUi.showMatchingTasks(tasks.find(keyword));
                 break;
             case MARK:
                 int markIndex = Parser.parseTaskIndex(command, tasks.size());
                 Task markedTask = tasks.mark(markIndex);
-                ui.showMarkedTask(markedTask);
+                activeUi.showMarkedTask(markedTask);
                 storage.save(tasks.asList());
                 break;
             case UNMARK:
                 int unmarkIndex = Parser.parseTaskIndex(command, tasks.size());
                 Task unmarkedTask = tasks.unmark(unmarkIndex);
-                ui.showUnmarkedTask(unmarkedTask);
+                activeUi.showUnmarkedTask(unmarkedTask);
                 storage.save(tasks.asList());
                 break;
             case DELETE:
                 int deleteIndex = Parser.parseTaskIndex(command, tasks.size());
                 Task deletedTask = tasks.delete(deleteIndex);
-                ui.showDeletedTask(deletedTask, tasks.size());
+                activeUi.showDeletedTask(deletedTask, tasks.size());
                 storage.save(tasks.asList());
                 break;
             case TODO:
@@ -108,7 +164,7 @@ public class Toot {
             case EVENT:
                 Task addedTask = Parser.parseTask(command);
                 tasks.add(addedTask);
-                ui.showAddedTask(addedTask, tasks.size());
+                activeUi.showAddedTask(addedTask, tasks.size());
                 storage.save(tasks.asList());
                 break;
             case BYE:
@@ -134,6 +190,6 @@ public class Toot {
      * @param args Command-line arguments; currently unused.
      */
     public static void main(String[] args) {
-        new Toot(getDataFilePath()).run();
+        new Toot().run();
     }
 }

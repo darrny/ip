@@ -11,8 +11,15 @@ Prerequisite: JDK 25.
 ./gradlew run
 ```
 
-`build` compiles the application and runs the JUnit test suite. `run` starts Toot
-and connects the chatbot to the terminal's standard input.
+`build` compiles the application and runs the JUnit and Checkstyle suites. `run`
+starts Toot's JavaFX interface.
+
+The original console interface remains available for quick manual and regression
+testing:
+
+```shell
+./gradlew runCli
+```
 
 ## Create and run the executable JAR
 
