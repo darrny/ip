@@ -61,10 +61,11 @@ public class Ui {
      * Shows the application banner and greeting.
      */
     public void showWelcome() {
-        output.println(HORIZONTAL_LINE);
-        output.print(BANNER + "\n");
-        output.println("Hewwo!! I'm Toot, ur teeny-tiny computey baby! ૮₍ ˶•⤙•˶ ₎ა");
-        output.println("Gib me a command... Toot do a BIG twy!! (•̀ᴗ•́)و");
+        showLines(
+                HORIZONTAL_LINE,
+                BANNER,
+                "Hewwo!! I'm Toot, ur teeny-tiny computey baby! ૮₍ ˶•⤙•˶ ₎ა",
+                "Gib me a command... Toot do a BIG twy!! (•̀ᴗ•́)و");
     }
 
     /**
@@ -114,10 +115,11 @@ public class Ui {
      * @param taskCount Updated task count.
      */
     public void showAddedTask(Task task, int taskCount) {
-        output.println("Toot addeded:");
-        output.println("  " + task);
         String taskWord = taskCount == 1 ? "task" : "tasks";
-        output.println("Toot has " + taskCount + " " + taskWord + " in the list now! (｡•̀ᴗ-)✧");
+        showLines(
+                "Toot addeded:",
+                "  " + task,
+                "Toot has " + taskCount + " " + taskWord + " in the list now! (｡•̀ᴗ-)✧");
     }
 
     /**
@@ -126,8 +128,9 @@ public class Ui {
      * @param task Updated task.
      */
     public void showMarkedTask(Task task) {
-        output.println("Nice! I've marked this task as done:");
-        output.println("  " + task);
+        showLines(
+                "Nice! I've marked this task as done:",
+                "  " + task);
     }
 
     /**
@@ -136,8 +139,9 @@ public class Ui {
      * @param task Updated task.
      */
     public void showUnmarkedTask(Task task) {
-        output.println("OK, I've marked this task as not done yet:");
-        output.println("  " + task);
+        showLines(
+                "OK, I've marked this task as not done yet:",
+                "  " + task);
     }
 
     /**
@@ -147,10 +151,11 @@ public class Ui {
      * @param taskCount Updated task count.
      */
     public void showDeletedTask(Task task, int taskCount) {
-        output.println("Noted. I've removed this task:");
-        output.println("  " + task);
         String taskWord = taskCount == 1 ? "task" : "tasks";
-        output.println("Now you have " + taskCount + " " + taskWord + " in the list.");
+        showLines(
+                "Noted. I've removed this task:",
+                "  " + task,
+                "Now you have " + taskCount + " " + taskWord + " in the list.");
     }
 
     /**
@@ -164,6 +169,17 @@ public class Ui {
      * Shows the divider line followed by a blank line.
      */
     public void showLineWithBlankLine() {
-        output.println(HORIZONTAL_LINE + "\n");
+        showLines(HORIZONTAL_LINE, "");
+    }
+
+    /**
+     * Prints each supplied message on its own line.
+     *
+     * @param lines Messages to print in order.
+     */
+    private void showLines(String... lines) {
+        for (String line : lines) {
+            output.println(line);
+        }
     }
 }
