@@ -32,6 +32,7 @@ public class TaskList {
      * @param task Task to add.
      */
     public void add(Task task) {
+        assert task != null : "Only actual tasks may be added to the list.";
         tasks.add(task);
     }
 
@@ -42,6 +43,7 @@ public class TaskList {
      * @return Updated task.
      */
     public Task mark(int index) {
+        assert index >= 0 && index < tasks.size() : "The parser must validate task indexes.";
         Task task = tasks.get(index);
         task.markAsDone();
         return task;
@@ -54,6 +56,7 @@ public class TaskList {
      * @return Updated task.
      */
     public Task unmark(int index) {
+        assert index >= 0 && index < tasks.size() : "The parser must validate task indexes.";
         Task task = tasks.get(index);
         task.markAsNotDone();
         return task;
@@ -66,6 +69,7 @@ public class TaskList {
      * @return Removed task.
      */
     public Task delete(int index) {
+        assert index >= 0 && index < tasks.size() : "The parser must validate task indexes.";
         return tasks.remove(index);
     }
 
