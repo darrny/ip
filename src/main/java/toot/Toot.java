@@ -101,7 +101,9 @@ public class Toot {
             Ui responseUi = new Ui(unusedInput, responseOutput);
             executeCommand(commandText, responseUi);
         }
-        return responseBytes.toString(StandardCharsets.UTF_8).stripTrailing();
+        return responseBytes.toString(StandardCharsets.UTF_8)
+                .replace("\r\n", "\n")
+                .stripTrailing();
     }
 
     /**
