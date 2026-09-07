@@ -10,6 +10,7 @@ public enum CommandType {
     DEADLINE("deadline", true),
     EVENT("event", true),
     LIST("list", false),
+    HELP("help", false),
     FIND("find", true),
     MARK("mark", true),
     UNMARK("unmark", true),
@@ -17,7 +18,7 @@ public enum CommandType {
     BYE("bye", false);
 
     private static final String UNKNOWN_COMMAND_MESSAGE = "Toot doesn't know that command. "
-            + "Try: todo, deadline, event, list, find, mark, unmark, delete, or bye. (・・?)";
+            + "Try: todo, deadline, event, list, find, mark, unmark, delete, help, or bye. (・・?)";
 
     private final String keyword;
     private final boolean allowsArguments;

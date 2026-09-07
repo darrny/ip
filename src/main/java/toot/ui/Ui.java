@@ -76,6 +76,27 @@ public class Ui {
     }
 
     /**
+     * Shows supported commands, index rules, and example task inputs.
+     */
+    public void showHelp() {
+        showLines(
+                "Toot command guide:",
+                "todo DESCRIPTION - Add a todo.",
+                "deadline DESCRIPTION /by YYYY-MM-DD - Add a deadline.",
+                "event DESCRIPTION /from START /to END - Add an event.",
+                "list - Show all tasks and their numbers.",
+                "find KEYWORD - Find descriptions (ignoring case).",
+                "mark NUMBER - Mark a task done.",
+                "unmark NUMBER - Mark a task not done.",
+                "delete NUMBER - Delete a task.",
+                "help - Show this guide.",
+                "bye - Exit.",
+                "Use task numbers from list for mark, unmark, and delete.",
+                "Examples: todo read book; deadline return book /by 2026-09-14",
+                "Example: event meeting /from Mon 2pm /to Mon 3pm");
+    }
+
+    /**
      * Shows a user-facing error.
      *
      * @param message Error explanation.
