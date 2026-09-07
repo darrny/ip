@@ -145,36 +145,52 @@ public class Toot {
                 activeUi.showMatchingTasks(tasks.find(keyword));
                 break;
             case MARK:
-                int markIndex = Parser.parseTaskIndex(command, tasks.size());
-                Task markedTask = tasks.mark(markIndex);
-                activeUi.showMarkedTask(markedTask);
-                storage.save(tasks.asList());
-                break;
             case UNMARK:
-                int unmarkIndex = Parser.parseTaskIndex(command, tasks.size());
-                Task unmarkedTask = tasks.unmark(unmarkIndex);
-                activeUi.showUnmarkedTask(unmarkedTask);
-                storage.save(tasks.asList());
-                break;
             case DELETE:
-                int deleteIndex = Parser.parseTaskIndex(command, tasks.size());
-                Task deletedTask = tasks.delete(deleteIndex);
-                activeUi.showDeletedTask(deletedTask, tasks.size());
-                storage.save(tasks.asList());
+                executeIndexedCommand(command, activeUi);
                 break;
             case TODO:
             case DEADLINE:
             case EVENT:
-                Task addedTask = Parser.parseTask(command);
-                tasks.add(addedTask);
-                activeUi.showAddedTask(addedTask, tasks.size());
-                storage.save(tasks.asList());
+                addTask(command, activeUi);
                 break;
             case BYE:
                 throw new AssertionError("The exit command must be handled before execution.");
             default:
                 throw new AssertionError("Unhandled command type: " + command.type());
         }
+    }
+
+    /**
+     * Executes a command that targets an existing task after validating its index.
+     */
+    private void executeIndexedCommand(ParsedCommand command, Ui activeUi) throws TootException {
+        int index = Parser.parseTaskIndex(command, tasks.size());
+        switch (command.type()) {
+            case MARK:
+                activeUi.showMarkedTask(tasks.mark(index));
+                break;
+            case UNMARK:
+                activeUi.showUnmarkedTask(tasks.unmark(index));
+                break;
+            case DELETE:
+                Task deletedTask = tasks.delete(index);
+                activeUi.showDeletedTask(deletedTask, tasks.size());
+                break;
+            default:
+                throw new AssertionError("Not an indexed command: " + command.type());
+        }
+        storage.save(tasks.asList());
+    }
+
+    /**
+     * Creates, displays, and saves a new task described by an add command.
+     */
+    private void addTask(ParsedCommand command, Ui activeUi) throws TootException {
+        Task addedTask = Parser.parseTask(command);
+        tasks.add(addedTask);
+        activeUi.showAddedTask(addedTask, tasks.size());
+        storage.save(tasks.asList());
     }
 
     /**
