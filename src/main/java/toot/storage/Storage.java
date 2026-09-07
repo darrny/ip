@@ -65,10 +65,9 @@ public class Storage {
      * @throws TootException If the data file cannot be written.
      */
     public void save(List<Task> tasks) throws TootException {
-        ArrayList<String> lines = new ArrayList<>();
-        for (Task task : tasks) {
-            lines.add(formatTask(task));
-        }
+        List<String> lines = tasks.stream()
+                .map(Storage::formatTask)
+                .toList();
 
         try {
             Path parent = filePath.getParent();
