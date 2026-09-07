@@ -197,11 +197,11 @@ Oh crumbs! Toot didn't hear a command. Type a command such as 'todo read book'. 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
-Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, find, mark, unmark, delete, or bye. (・・?)
+Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, find, mark, unmark, delete, help, or bye. (・・?)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
-Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, find, mark, unmark, delete, or bye. (・・?)
+Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, find, mark, unmark, delete, help, or bye. (・・?)
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
@@ -633,6 +633,63 @@ Here are the matching tasks in your list:
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 Here are the matching tasks in your list:
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Otay bye-bye! Toot go eepy now... zZz (｡-ω-)ﾉ
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+```
+
+### TC-09: Help and argument validation
+
+**Aim:** Verify the full command guide, reject help arguments, and keep the task list unchanged.
+
+#### Inputs
+
+```text
+help
+help extra
+list
+bye
+```
+
+#### Expected output
+
+```text
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+ _____           _
+|_   _|__   ___ | |_
+  | |/ _ \ / _ \| __|
+  | | (_) | (_) | |_
+  |_|\___/ \___/ \__|
+
+Hewwo!! I'm Toot, ur teeny-tiny computey baby! ૮₍ ˶•⤙•˶ ₎ა
+Gib me a command... Toot do a BIG twy!! (•̀ᴗ•́)و
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Toot command guide:
+todo DESCRIPTION - Add a todo.
+deadline DESCRIPTION /by YYYY-MM-DD - Add a deadline.
+event DESCRIPTION /from START /to END - Add an event.
+list - Show all tasks and their numbers.
+find KEYWORD - Find descriptions (ignoring case).
+mark NUMBER - Mark a task done.
+unmark NUMBER - Mark a task not done.
+delete NUMBER - Delete a task.
+help - Show this guide.
+bye - Exit.
+Use task numbers from list for mark, unmark, and delete.
+Examples: todo read book; deadline return book /by 2026-09-14
+Example: event meeting /from Mon 2pm /to Mon 3pm
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Oh crumbs! Toot doesn't know that command. Try: todo, deadline, event, list, find, mark, unmark, delete, help, or bye. (・・?)
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+
+⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
+Here are the tasks in your list:
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆
 
 ⋆｡°✩ ──────────────────────────────────────────────── ✩°｡⋆

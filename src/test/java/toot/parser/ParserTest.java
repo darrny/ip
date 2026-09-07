@@ -35,7 +35,7 @@ public class ParserTest {
         assertEquals("Toot didn't hear a command. Type a command such as 'todo read book'. (・・?)",
                 emptyError.getMessage());
         assertEquals("Toot doesn't know that command. "
-                + "Try: todo, deadline, event, list, find, mark, unmark, delete, or bye. (・・?)",
+                + "Try: todo, deadline, event, list, find, mark, unmark, delete, help, or bye. (・・?)",
                 unknownError.getMessage());
         assertEquals(unknownError.getMessage(), listError.getMessage());
     }

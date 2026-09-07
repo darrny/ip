@@ -136,6 +136,9 @@ public class Toot {
      */
     private void execute(ParsedCommand command, Ui activeUi) throws TootException {
         switch (command.type()) {
+            case HELP:
+                activeUi.showHelp();
+                break;
             case LIST:
                 activeUi.showTasks(tasks.asList());
                 break;

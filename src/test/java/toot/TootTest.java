@@ -1,7 +1,10 @@
 package toot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
@@ -27,5 +30,17 @@ public class TootTest {
                 toot.getResponse("list"));
         assertEquals("Otay bye-bye! Toot go eepy now... zZz (｡-ω-)ﾉ",
                 toot.getResponse("bye"));
+    }
+    @Test
+    public void getResponse_help_preservesTasksAndDoesNotCreateStorage() {
+        Path dataFile = temporaryDirectory.resolve("help.txt");
+        Toot toot = new Toot(dataFile);
+        assertTrue(toot.getResponse("help").startsWith("Toot command guide:"));
+        assertFalse(Files.exists(dataFile));
+        toot.getResponse("todo read book");
+        String beforeHelp = toot.getResponse("list");
+        toot.getResponse("help");
+        assertEquals(beforeHelp, toot.getResponse("list"));
+        assertTrue(toot.getResponse("help extra").startsWith("Oh crumbs!"));
     }
 }
